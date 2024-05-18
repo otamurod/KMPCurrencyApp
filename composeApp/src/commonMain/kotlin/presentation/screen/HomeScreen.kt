@@ -8,7 +8,7 @@ import data.remote.api.CurrencyApiServiceImpl
 class HomeScreen : Screen {
     @Composable
     override fun Content() {
-        LaunchedEffect(Unit){
+        LaunchedEffect(Unit) {
             CurrencyApiServiceImpl().getLatestExchangeRates()
         }
     }
