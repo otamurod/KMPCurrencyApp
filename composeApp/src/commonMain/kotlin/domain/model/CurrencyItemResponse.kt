@@ -1,12 +1,19 @@
 package domain.model
 
+import io.realm.kotlin.types.RealmObject
+import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.mongodb.kbson.ObjectId
 
 @Serializable
-data class CurrencyItemResponse(
+open class CurrencyItemResponse : RealmObject {
+    @PrimaryKey
+    var id: ObjectId = ObjectId()
+
     @SerialName("code")
-    val code: String,
+    var code: String = ""
+
     @SerialName("value")
-    val value: Double
-)
+    var value: Double = 0.0
+}

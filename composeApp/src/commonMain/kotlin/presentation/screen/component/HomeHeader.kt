@@ -22,7 +22,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import domain.model.CurrencyItemResponse
 import domain.model.RateStatus
+import domain.util.RequestState
 import kmpcurrencyapp.composeapp.generated.resources.Res
 import kmpcurrencyapp.composeapp.generated.resources.exchange_illustration
 import kmpcurrencyapp.composeapp.generated.resources.refresh_ic
@@ -36,10 +38,14 @@ import util.displayCurrentDateTime
 fun HomeHeader(
     status: RateStatus,
     onRatesRefresh: () -> Unit,
-    modifier: Modifier = Modifier
+    source: RequestState<CurrencyItemResponse>,
+    target: RequestState<CurrencyItemResponse>,
+    onSwitchClick: () -> Unit,
+    amount: Double,
+    onAmountChange: (Double) -> Unit
 ) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
             .background(headerColor)
@@ -50,6 +56,14 @@ fun HomeHeader(
             status = status,
             onRatesRefresh = onRatesRefresh
         )
+        Spacer(modifier = Modifier.height(24.dp))
+        CurrencyInputs(
+            source = source,
+            target = target,
+            onSwitchClick = onSwitchClick
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+        AmountInput(amount = amount, onAmountChange = onAmountChange)
     }
 }
 
