@@ -12,6 +12,8 @@ import domain.model.RateStatus
 import domain.repository.MongoDbRepository
 import domain.repository.PreferencesRepository
 import domain.util.RequestState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
@@ -43,6 +45,8 @@ class HomeViewModel(
     init {
         screenModelScope.launch {
             fetchNewRates()
+            readSourceCurrency()
+            readTargetCurrency()
         }
     }
 
@@ -51,6 +55,34 @@ class HomeViewModel(
             is HomeUiEvent.RefreshRates -> {
                 screenModelScope.launch {
                     fetchNewRates()
+                }
+            }
+        }
+    }
+
+    private fun readSourceCurrency() {
+        screenModelScope.launch(Dispatchers.Main) {
+            preferencesRepository.readSourceCurrencyCode().collectLatest { currencyCode ->
+                val selectedCurrency = _allCurrencies.find { it.code == currencyCode.name }
+                if (selectedCurrency != null) {
+                    _sourceCurrency.value = RequestState.Success(data = selectedCurrency)
+                } else {
+                    _sourceCurrency.value =
+                        RequestState.Error(message = "Couldn't find the selected currency.")
+                }
+            }
+        }
+    }
+
+    private fun readTargetCurrency() {
+        screenModelScope.launch(Dispatchers.Main) {
+            preferencesRepository.readTargetCurrencyCode().collectLatest { currencyCode ->
+                val selectedCurrency = _allCurrencies.find { it.code == currencyCode.name }
+                if (selectedCurrency != null) {
+                    _targetCurrency.value = RequestState.Success(data = selectedCurrency)
+                } else {
+                    _targetCurrency.value =
+                        RequestState.Error(message = "Couldn't find the selected currency.")
                 }
             }
         }
