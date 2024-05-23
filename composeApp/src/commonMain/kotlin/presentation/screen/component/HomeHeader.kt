@@ -23,8 +23,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import domain.model.CurrencyItemResponse
+import domain.model.CurrencyType
 import domain.model.RateStatus
 import domain.util.RequestState
+import getPlatform
 import kmpcurrencyapp.composeapp.generated.resources.Res
 import kmpcurrencyapp.composeapp.generated.resources.exchange_illustration
 import kmpcurrencyapp.composeapp.generated.resources.refresh_ic
@@ -42,13 +44,15 @@ fun HomeHeader(
     target: RequestState<CurrencyItemResponse>,
     onSwitchClick: () -> Unit,
     amount: Double,
-    onAmountChange: (Double) -> Unit
+    onAmountChange: (Double) -> Unit,
+    onCurrencyTypeSelect: (CurrencyType) -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
             .background(headerColor)
+            .padding(top = if (getPlatform().name == "Android") 0.dp else 24.dp)
             .padding(all = 24.dp)
     ) {
         Spacer(modifier = Modifier.height(24.dp))
@@ -60,7 +64,8 @@ fun HomeHeader(
         CurrencyInputs(
             source = source,
             target = target,
-            onSwitchClick = onSwitchClick
+            onSwitchClick = onSwitchClick,
+            onCurrencyTypeSelect = onCurrencyTypeSelect
         )
         Spacer(modifier = Modifier.height(24.dp))
         AmountInput(amount = amount, onAmountChange = onAmountChange)

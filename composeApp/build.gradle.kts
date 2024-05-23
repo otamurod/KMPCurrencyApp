@@ -70,6 +70,7 @@ kotlin {
             implementation(libs.ktor.client.darwin)
         }
     }
+    task("testClasses"){}
 }
 
 android {
@@ -105,4 +106,3 @@ android {
         debugImplementation(libs.compose.ui.tooling)
     }
 }
-

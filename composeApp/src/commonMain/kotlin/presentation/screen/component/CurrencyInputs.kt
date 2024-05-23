@@ -33,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import domain.model.CurrencyCode
 import domain.model.CurrencyItemResponse
+import domain.model.CurrencyType
 import domain.util.DisplayResult
 import domain.util.RequestState
 import kmpcurrencyapp.composeapp.generated.resources.Res
@@ -45,7 +46,8 @@ import org.jetbrains.compose.resources.painterResource
 fun CurrencyInputs(
     source: RequestState<CurrencyItemResponse>,
     target: RequestState<CurrencyItemResponse>,
-    onSwitchClick: () -> Unit
+    onSwitchClick: () -> Unit,
+    onCurrencyTypeSelect: (CurrencyType) -> Unit
 ) {
     var animationStarted by remember { mutableStateOf(false) }
     val animatedRotation by animateFloatAsState(
@@ -60,7 +62,17 @@ fun CurrencyInputs(
         CurrencyView(
             placeholder = "From",
             currency = source,
-            onClick = {}
+            onClick = {
+                if (source.isSuccess()) {
+                    onCurrencyTypeSelect(
+                        CurrencyType.Source(
+                            currencyCode = CurrencyCode.valueOf(
+                                source.getSuccessData().code
+                            )
+                        )
+                    )
+                }
+            }
         )
 
         Spacer(modifier = Modifier.width(14.dp))
@@ -87,7 +99,17 @@ fun CurrencyInputs(
         CurrencyView(
             placeholder = "To",
             currency = target,
-            onClick = {}
+            onClick = {
+                if (target.isSuccess()) {
+                    onCurrencyTypeSelect(
+                        CurrencyType.Target(
+                            currencyCode = CurrencyCode.valueOf(
+                                target.getSuccessData().code
+                            )
+                        )
+                    )
+                }
+            }
         )
     }
 }
