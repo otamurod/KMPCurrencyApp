@@ -1,4 +1,4 @@
-# Efficient Development of iOS & Android Apps withKotlin & Jetpack Compose
+# Efficient Development of iOS & Android Apps with Kotlin & Jetpack Compose
 
 <p align="center">
   I successfully completed the <a href="https://www.udemy.com/course/compose-multiplatform-iosandroid-development-with-kotlin/" align="center">Online Course on Udemy</a> by Stefan Jovanovic
