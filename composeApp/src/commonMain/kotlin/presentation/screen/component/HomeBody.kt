@@ -71,8 +71,8 @@ fun HomeBody(
                 Column {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = "1 ${source.getSuccessData().code} = " +
-                                "${target.getSuccessData().value} " +
+                        text = "1.0 ${source.getSuccessData().code} = " +
+                                "${(target.getSuccessData().value)/(source.getSuccessData().value)} " +
                                 target.getSuccessData().code,
                         fontSize = MaterialTheme.typography.bodySmall.fontSize,
                         color = if (isSystemInDarkTheme()) Color.White.copy(alpha = 0.5f)
@@ -82,8 +82,8 @@ fun HomeBody(
                     )
                     Text(
                         modifier = Modifier.fillMaxWidth(),
-                        text = "1 ${target.getSuccessData().code} = " +
-                                "${source.getSuccessData().value} " +
+                        text = "1.0 ${target.getSuccessData().code} = " +
+                                "${(source.getSuccessData().value)/(target.getSuccessData().value)} " +
                                 source.getSuccessData().code,
                         fontSize = MaterialTheme.typography.bodySmall.fontSize,
                         color = if (isSystemInDarkTheme()) Color.White.copy(alpha = 0.5f)
@@ -97,12 +97,13 @@ fun HomeBody(
         Button(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(54.dp)
+                .height(78.dp)
                 .padding(horizontal = 24.dp)
                 .background(
                     color = Color.Unspecified,
                     shape = RoundedCornerShape(99.dp)
-                ),
+                )
+                .padding(bottom = 24.dp),
             onClick = {
                 if (source.isSuccess() && target.isSuccess()) {
                     val exchangeRate = calculateExchangeRate(
